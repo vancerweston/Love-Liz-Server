@@ -11,7 +11,8 @@ const insertTestData = require('./config/defaultData');
 const MongoClient = require('mongodb').MongoClient;
 
 // application module imports
-var indexRouter = require('./routes/index');
+let testAPIRouter = require('./routes/testAPI');
+let testDataRouter = require('./routes/testData');
 
 // database setup
 console.log('<<-- Initiatiing Mongoose Test -->>');
@@ -37,10 +38,10 @@ client.connect(function(err) {
   });
 });
 
-
 // setting up express
 var app = express();
 
+// CORS Policy
 app.use(cors());
 
 app.use(express.json());
@@ -48,7 +49,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
+app.use('/testAPI', testAPIRouter);
+app.use('/testData', testDataRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
